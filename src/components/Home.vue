@@ -2,14 +2,10 @@
 import { onMounted, ref } from "vue";
 
 import Modal from "./Modal.vue";
-import { Item,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@/components/ui/item";
 import { ListProjects, CreateProject } from '../requests/projects';
 import type { ProjectModel } from '../models/project/projectModel';
 import { ValidationError, ApiError } from '../errors';
+import ProjectCard from "./ProjectCard.vue";
 
 const emit = defineEmits(["click", "add-new"])
 const projects = ref<ProjectModel[]>([]);
@@ -69,17 +65,8 @@ onMounted(() => {
 <template>
     <section class="container">
         <h1>Projects</h1>
-        <section class="projects-list">
-            <Item variant="outline" v-for="project in projects" :key="project.id">
-                <ItemContent>
-                    <RouterLink class="project-link" :to="{ name: 'project', params: { id: project.id } }">
-                        <ItemTitle>Name: {{ project.name }}</ItemTitle>
-                        <ItemDescription>
-                            A simple item with title and description.
-                        </ItemDescription>
-                    </RouterLink>
-                </ItemContent>
-            </Item>
+        <section class="projects-grid">
+            <ProjectCard v-for="project in projects" :key="project.id" :project="project"/>
         </section>
         <div class="add-new-project">
             <button class="add-btn" @click="toggleModal">
@@ -109,13 +96,10 @@ h1 {
     min-height: 10em;
 }
 
-.project-item {
-    list-style: none;
-    max-width: 800px;
-    padding: 1.5em;
-    margin-bottom: 1em;
-    border-radius: 1.5em;
-    border: 1px solid gray;
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-6);
 }
 
 .project-link {
