@@ -44,6 +44,6 @@ export const Disabled: Story = {
         setup() {
             return { name: "PRJ-12345" };
         },
-        template: '<Input type="text" v-model="name"/ disabled>',
+        template: '<Input type="text" v-model="name" disabled />',
     }),
 };

@@ -1,38 +1,52 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
-import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar'
+// import { RouterView } from 'vue-router';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { Separator } from '@/components/ui/separator';
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+
+import AppHeader from './components/AppHeader.vue';
 import AppSidebar from './components/AppSidebar.vue';
-import AppBreadcrumbs from './components/AppBreadcrumbs.vue';
+import AppProjects from './components/AppProjects.vue';
 
 </script>
 
 <template>
-    <SidebarProvider>
-    <AppSidebar />
-    <SidebarInset>
-      <header class="flex h-16 shrink-0 items-center gap-2">
-        <div class="flex items-center gap-2 px-4">
-          <SidebarTrigger class="-ml-1" />
-          <Separator orientation="vertical" class="mr-2 h-4" />
-          <AppBreadcrumbs />
-        </div>
-      </header>
-      <RouterView />
-    </SidebarInset>
-  </SidebarProvider>
+    <div class="[--header-height:calc(--spacing(14))]">
+        <SidebarProvider class="flex flex-col">
+            <AppHeader />
+            <div class="flex flex-1">
+                <AppSidebar />
+                <SidebarInset>
+                    <header
+                        class="bg-secondary sticky top-(--header-height) z-50 flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+                        <div class="flex items-center gap-2 px-4">
+                            <SidebarTrigger class="-ml-1" />
+                            <Separator orientation="vertical" class="mr-2 data-[orientation=vertical]:h-4" />
+                            <Breadcrumb>
+                                <BreadcrumbList>
+                                    <BreadcrumbItem class="hidden md:block">
+                                        <BreadcrumbLink href="#">
+                                            Building Your Application
+                                        </BreadcrumbLink>
+                                    </BreadcrumbItem>
+                                    <BreadcrumbSeparator class="hidden md:block" />
+                                    <BreadcrumbItem>
+                                        <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                                    </BreadcrumbItem>
+                                </BreadcrumbList>
+                            </Breadcrumb>
+                        </div>
+                    </header>
+                    <RouterView />
+                </SidebarInset>
+            </div>
+        </SidebarProvider>
+    </div>
 </template>
-
-<style>
-@layer base {
-    .dark {
-        --sidebar-background: 240 5.9% 10%;
-        --sidebar-foreground: 240 4.8% 95.9%;
-        --sidebar-primary: 224.3 76.3% 48%;
-        --sidebar-primary-foreground: 0 0% 100%;
-        --sidebar-accent: 240 3.7% 15.9%;
-        --sidebar-accent-foreground: 240 4.8% 95.9%;
-        --sidebar-border: 240 3.7% 15.9%;
-        --sidebar-ring: 217.2 91.2% 59.8%;
-    }
-}
-</style>

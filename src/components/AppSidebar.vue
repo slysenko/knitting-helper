@@ -4,36 +4,54 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
-} from '@/components/ui/sidebar'
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from "@/components/ui/sidebar"
+
+import type { SidebarProps } from "@/components/ui/sidebar";
+
+import {
+    BookOpen,
+    Bot,
+    Command,
+    Frame,
+    LifeBuoy,
+    Map,
+    PieChart,
+    Send,
+    Settings2,
+    SquareTerminal,
+} from "lucide-vue-next"
+
+const props = withDefaults(defineProps<SidebarProps>(), {
+    collapsible: "icon",
+});
 </script>
 
 <template>
-    <Sidebar collapsible="icon" class="sidebar">
-        <SidebarHeader class="sidebar-logo">
-            🧶 Knit & Crochet
+    <Sidebar class="top-(--header-height) h-[calc(100svh-var(--header-height))]!" v-bind="props">
+        <SidebarHeader>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton size="lg" as-child>
+                        <a href="#">
+                            <div
+                                class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                <Command class="size-4" />
+                            </div>
+                            <div class="grid flex-1 text-left text-sm leading-tight">
+                                <span class="truncate font-medium">Acme Inc</span>
+                                <span class="truncate text-xs">Enterprise</span>
+                            </div>
+                        </a>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
-
+            Some content
         </SidebarContent>
         <SidebarFooter />
     </Sidebar>
 </template>
-
-<style lang="css" scoped>
-.sidebar {
-    background: hsl(var(--card));
-    border-right: 1px solid hsl(var(--border));
-    padding: var(--spacing-xl) var(--spacing-lg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xl);
-}
-
-.sidebar-logo {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: hsl(var(--primary));
-    margin-bottom: var(--spacing-md);
-}
-</style>
