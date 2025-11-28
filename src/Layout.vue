@@ -13,7 +13,6 @@ import {
 
 import AppHeader from './components/AppHeader.vue';
 import AppSidebar from './components/AppSidebar.vue';
-import AppProjects from './components/AppProjects.vue';
 
 </script>
 

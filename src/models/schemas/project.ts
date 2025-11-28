@@ -1,39 +1,51 @@
 import { z } from "zod";
 
+// Simplified Yarn schema for populated references
+const yarnReferenceSchema = z.object({
+  _id: z.string(),
+  name: z.string(),
+  brand: z.string().optional(),
+  // Add other yarn fields as needed when you have the full Yarn schema
+});
+
 const photoSchema = z.object({
+  _id: z.string().optional(),
   filePath: z.string(),
   isPrimary: z.boolean().default(false),
   photoType: z.enum(["progress", "finished", "detail", "inspiration", "other"]).optional(),
-  caption: z.string().optional(),
-  takenAt: z.coerce.date(),
-  createdAt: z.date().default(() => new Date()),
+  caption: z.string().max(500).optional(),
+  takenAt: z.coerce.date().optional(),
+  createdAt: z.coerce.date().default(() => new Date()),
 });
 
 const yarnUsedSchema = z.object({
-  yarn: z.string(),
-  quantityUsed: z.number(),
+  _id: z.string().optional(),
+  yarn: yarnReferenceSchema,
+  isPrimary: z.boolean().default(false),
+  quantityUsed: z.number().positive(),
   quantityUnit: z.enum(["skeins", "balls", "grams", "meters"]).default("skeins"),
-  costPerUnit: z.number().optional(),
-  currency: z.string().default("EUR"),
-  notes: z.string().optional(),
+  costPerUnit: z.number().nonnegative().optional(),
+  currency: z.string().length(3).toUpperCase().default("EUR"),
+  notes: z.string().max(500).optional(),
 });
 
 const additionalCostSchema = z.object({
-  description: z.string(),
-  amount: z.number(),
-  currency: z.string().default("EUR"),
+  _id: z.string().optional(),
+  description: z.string().min(1).max(200),
+  amount: z.number().positive(),
+  currency: z.string().length(3).toUpperCase().default("EUR"),
   category: z.enum(["notions", "pattern", "tools", "other"]).optional(),
-  purchaseDate: z.coerce.date(),
-  notes: z.string().optional(),
-  createdAt: z.date().default(() => new Date()),
+  purchaseDate: z.coerce.date().optional(),
+  notes: z.string().max(500).optional(),
+  createdAt: z.coerce.date().default(() => new Date()),
 });
 
 export const ProjectSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  comments: z.string().optional(),
+  _id: z.string(), // MongoDB ObjectId
+  id: z.string().optional(), // Keep for backwards compatibility if needed
+  name: z.string().min(1).max(200),
+  comments: z.string().max(2000).optional(),
   projectType: z.enum(["knitting", "crochet"]),
-  primaryYarn: z.string().optional(),
   status: z.enum(["active", "completed", "frogged", "hibernating"]).default("active"),
   startDate: z.coerce.date().optional(),
   completionDate: z.coerce.date().optional(),
@@ -42,6 +54,11 @@ export const ProjectSchema = z.object({
   additionalCosts: z.array(additionalCostSchema).default([]),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  // Virtual fields (computed by backend)
+  totalYarnCost: z.number().optional(),
+  totalAdditionalCost: z.number().optional(),
+  totalProjectCost: z.number().optional(),
+  primaryYarn: yarnUsedSchema.optional(), // The yarn marked as isPrimary: true
 });
 
 export const ProjectResponseSchema = z.object({

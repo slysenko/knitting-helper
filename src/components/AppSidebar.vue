@@ -3,6 +3,8 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -18,9 +20,12 @@ import {
     Frame,
     LifeBuoy,
     Map,
+    FolderOpenDot,
+    PencilRuler,
     PieChart,
     Send,
     Settings2,
+    Spool,
     SquareTerminal,
 } from "lucide-vue-next"
 
@@ -42,7 +47,6 @@ const props = withDefaults(defineProps<SidebarProps>(), {
                             </div>
                             <div class="grid flex-1 text-left text-sm leading-tight">
                                 <span class="truncate font-medium">Acme Inc</span>
-                                <span class="truncate text-xs">Enterprise</span>
                             </div>
                         </a>
                     </SidebarMenuButton>
@@ -50,7 +54,28 @@ const props = withDefaults(defineProps<SidebarProps>(), {
             </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
-            Some content
+            <SidebarGroup>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton as-child>
+                                <RouterLink :to="{ name: 'projects' }" >
+                                    <PencilRuler />
+                                    <span>Projects</span>
+                                </RouterLink>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton as-child>
+                                <RouterLink :to="{ name: 'materials' }" >
+                                    <Spool />
+                                    <span>Materials</span>
+                                </RouterLink>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
         </SidebarContent>
         <SidebarFooter />
     </Sidebar>

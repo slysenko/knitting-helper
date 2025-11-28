@@ -48,12 +48,12 @@ function handleClick() {
         </CardHeader>
         <CardContent>
             <p>Card Content</p>
-            <Item v-for="yarn in project.yarnsUsed">
+            <Item v-for="yarnUsed in project.yarnsUsed">
                 <ItemMedia>
                     <Spool />
                 </ItemMedia>
                 <ItemContent>
-                    <ItemTitle>{{ yarn }}</ItemTitle>
+                    <ItemTitle>{{ yarnUsed.yarn.name }}</ItemTitle>
                 </ItemContent>
             </Item>
             <Item>

@@ -19,8 +19,14 @@ export function setData(data: Record<string, any>, result: Record<string, any> =
   return result;
 }
 
-export default class Model<T extends Record<string, any>> {
+class ModelBase<T extends object> {
   constructor(data = {} as T) {
-    setData(data, this);
+    Object.assign(this, data);
   }
 }
+
+type Model<T extends object> = ModelBase<T> & T;
+
+const Model = ModelBase as new <T extends object>(data?: T) => Model<T>;
+
+export default Model;

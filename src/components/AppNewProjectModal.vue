@@ -57,7 +57,20 @@ const isOpen = ref(false)
 
 const onSubmit = handleSubmit((values) => {
     console.log('Form submitted!', values);
-    emit("add-new", values);
+    const yarnData = {
+        name: values.primaryYarn,
+        isPrimary: true,
+        quantityUsed: 1,
+        quantityUnit: "skeins",
+        costPerUnit: 0,
+    }
+    const projectData = {
+        name: values.name,
+        projectType: values.projectType,
+        comments: values.comments,
+        yarnsUsed: [],
+    }
+    emit("add-new", projectData, yarnData);
     resetForm();
     isOpen.value = false;
 })

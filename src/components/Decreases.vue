@@ -10,7 +10,7 @@ const projectId = computed(() => {
     return route.params.id;
 });
 
-import Modal from "./Modal.vue";
+// import Modal from "./Modal.vue";
 
 const emit = defineEmits(["click", "add-new"])
 const decreases = ref<TProject[]>([]);
@@ -50,10 +50,10 @@ function addNewDecreasesItem(name: string) {
             </button>
         </div>
     </section>
-    <Modal v-if="isModalOpen" @add-new="addNewDecreasesItem">
+    <!-- <Modal v-if="isModalOpen" @add-new="addNewDecreasesItem">
         <template v-slot:modal-title>Add new descreases/increases</template>
         <template v-slot:legend>Choose a name for your decreases/increases chart</template>
-    </Modal>
+    </Modal> -->
 </template>
 
 <style lang="css"></style>
